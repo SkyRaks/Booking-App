@@ -17,5 +17,4 @@ class OwnerModelTest(TestCase):
         owner = Owner.objects.create(user=user)
 
         self.assertEqual(Owner.objects.count(), 1)
-
         self.assertEqual(owner.user.username, "oliver")
