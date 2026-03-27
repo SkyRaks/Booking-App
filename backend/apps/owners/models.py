@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Owner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # first_name = models.CharField(max_length=50, null=True, blank=True)
-    # last_name = models.CharField(max_length=50, null=True, blank=True)
     image = models.ImageField(upload_to='owners/', null=True, blank=True) # for now idk where tosave cuz i want to use s3 later
 
     def __str__(self):
