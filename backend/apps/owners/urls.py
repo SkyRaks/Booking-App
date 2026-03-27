@@ -3,5 +3,5 @@ from .views import *
 
 urlpatterns = [
     path("create/", CreateOwnerView.as_view(), name="create-owner"),
-    path("properties/", PropertyView.as_view(), name="properties"),
+    path("create-properties/", PropertyView.as_view(), name="create-properties"),
 ]

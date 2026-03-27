@@ -1,5 +1,4 @@
 from django.shortcuts import render
-# from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -34,14 +33,14 @@ class CreateOwnerView(APIView):
 class PropertyView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        properties = Property.objects.filter(owner=request.user.owner)
-        data = [{
-            "id": p.id,
-            "title": p.title
-        } for p in properties]
+    # def get(self, request):
+    #     properties = Property.objects.filter(owner=request.user.owner)
+    #     data = [{
+    #         "id": p.id,
+    #         "title": p.title
+    #     } for p in properties]
 
-        return Response(data, status=status.HTTP_200_OK)
+    #     return Response(data, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = PropertyCreateSerializer(data=request.data)

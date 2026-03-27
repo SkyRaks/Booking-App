@@ -1,10 +1,14 @@
 from django.test import TestCase
 from apps.owners.models import *
+from apps.bookings.models import *
+from apps.properties.models import *
+
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from django.urls import reverse
 
 # Create your tests here.
+# command to run tests: python manage.py test apps/owners
 
 class OwnerModelTest(TestCase): 
     def create_owner(self):
@@ -58,7 +62,7 @@ class OwnerModelTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
 
-        url = reverse("properties")
+        url = reverse("create-properties")
 
         res = client.post(url, {
             "title": "my property",
