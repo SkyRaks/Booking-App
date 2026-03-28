@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import *
-from ..properties.models import *
+from .models import Guest
+# from ..properties.models import *
 
-class OwnerCreateSerializer(serializers.Serializer):
+class GuestCreateSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     password = serializers.CharField()
@@ -15,5 +15,5 @@ class OwnerCreateSerializer(serializers.Serializer):
             password=validated_data['password'],
         )
 
-        owner = Owner.objects.create(user=user)
-        return owner
+        guest = Guest.objects.create(user=user)
+        return guest

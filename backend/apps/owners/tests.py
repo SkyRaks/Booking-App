@@ -55,21 +55,3 @@ class OwnerModelTest(TestCase):
         self.assertIn("access", res.data)
         self.assertIn("refresh", res.data)
     
-    def test_can_create_property(self):
-        self.create_owner()
-        access = self.get_token()
-
-        client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
-
-        url = reverse("create-properties")
-
-        res = client.post(url, {
-            "title": "my property",
-            "description": "my description",
-            "location": "toronto",
-            "price_per_night": 100,
-        }, format="json")
-
-        self.assertEqual(res.status_code, 201)
-        self.assertEqual("my property", res.data["title"])

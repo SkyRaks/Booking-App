@@ -45,10 +45,10 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'apps.owners.apps.OwnersConfig',
+    'apps.guests.apps.GuestsConfig',
+
     'apps.bookings.apps.BookingsConfig',
     'apps.properties.apps.PropertiesConfig',
-
-    'apps.users.apps.UsersConfig',
 ]
 
 REST_FRAMEWORK = {
@@ -142,4 +142,4 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR /'media'
