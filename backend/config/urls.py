@@ -16,5 +16,6 @@ urlpatterns = [
     path('owners/', include("apps.owners.urls")),
     path('guests/', include("apps.guests.urls")),
 
-    path('properties/', include("apps.properties.urls"))
+    path('properties/', include("apps.properties.urls")),
+    path('bookings/', include("apps.bookings.urls")),
 ]

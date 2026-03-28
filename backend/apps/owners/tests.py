@@ -11,10 +11,11 @@ from django.urls import reverse
 # command to run tests: python manage.py test apps/owners
 
 class OwnerModelTest(TestCase): 
-    def create_owner(self):
-        user = User.objects.create_user(username="oliver", password="password123")
-        owner = Owner.objects.create(user=user)
+    def create_owner(self, user=None):
+        if user is None:
+            user = User.objects.create_user(username="oliver", password="password123")
 
+        owner = Owner.objects.create(user=user)
         return owner
     
     def get_token(self):

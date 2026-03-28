@@ -15,7 +15,7 @@ class GuestModelTest(TestCase):
     def create_guest(self):
         user = User.objects.create_user(username="oliverGuest", password="password123")
         guest = Guest.objects.create(user=user)
-
+        
         return guest
     
     def get_token(self):

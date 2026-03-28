@@ -13,6 +13,22 @@ from apps.owners.tests import OwnerModelTest
 
 class PropertyModelTest(TestCase):
 
+    def create_property(self, owner=None):
+        if owner is None:
+            # owner = OwnerModelTest.create_owner(self, owner=None)
+            owner = Owner.objects.create(
+                user=User.objects.create(username="owner1", password="123")
+            )
+
+        property = Property.objects.create(
+            owner=owner,
+            title="test property",
+            description="test description",
+            location="test location",
+            price_per_night=100,
+        )
+        return property
+
     def test_can_create_property(self):
         OwnerModelTest.create_owner(self)
         access = OwnerModelTest.get_token(self)

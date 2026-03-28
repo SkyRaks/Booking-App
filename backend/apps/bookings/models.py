@@ -4,9 +4,9 @@ from ..properties.models import *
 from ..owners.models import *
 
 # Create your models here.
-class Bookings(models.Model):
-    property = models.OneToOneField(Property, on_delete=models.CASCADE)
-    owner = models.OneToOneField(Owner, on_delete=models.CASCADE)
+class Booking(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
     start_date = models.DateField()
     end_date = models.DateField()
