@@ -41,7 +41,7 @@ class BookingModelTest(TestCase):
         )
         return property
 
-    def test_book_property(self):
+    def test_booking_property(self):
         user = self.create_guest()
         access = self.get_token()
 
