@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider, Box, CssBaseline, Button, Container } from 
 
 import Navbar from './components/Navbar';
 import Hero from "./components/Hero";
-// import { blue } from "@mui/material/colors";
+import FeaturedProperties from "./components/FeaturedProperties";
 
 function App() {
   type ThemeMode = 'light' | 'dark'
@@ -42,6 +42,7 @@ function App() {
         <Container maxWidth='lg'>
           <CssBaseline />
           <Hero /> 
+          <FeaturedProperties />
 
           <Box sx={{height: '100vh'}}>
             <h3>Hello</h3>
