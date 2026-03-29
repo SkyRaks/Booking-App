@@ -1,14 +1,11 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from './assets/vite.svg'
-// import heroImg from './assets/hero.png'
-// import './App.css'
 import { useMemo, useState } from "react"
 import { createTheme, ThemeProvider, Box, CssBaseline, Button, Container } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 
 import Navbar from './components/Navbar';
-import Hero from "./components/Hero";
-import FeaturedProperties from "./components/FeaturedProperties";
+import Home from "./pages/Home.page";
+// import Hero from "./components/Hero";
+// import FeaturedProperties from "./components/FeaturedProperties";
 
 function App() {
   type ThemeMode = 'light' | 'dark'
@@ -37,17 +34,10 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Navbar toggleTheme={toggleTheme} mode={mode}/>
-        {/* <Button variant="contained" onClick={toggleTheme}>Theme</Button> */}
 
-        <Container maxWidth='lg'>
-          <CssBaseline />
-          <Hero /> 
-          <FeaturedProperties />
-
-          <Box sx={{height: '100vh'}}>
-            <h3>Hello</h3>
-          </Box>
-        </Container>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+        </Routes>
       </ThemeProvider>
     </>
   )
