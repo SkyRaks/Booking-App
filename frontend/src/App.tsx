@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from "./pages/Home.page";
 import SignUpPage from "./pages/auth/SignUp.page";
+import LoginPage from "./pages/auth/Login.page";
 // import Hero from "./components/Hero";
 // import FeaturedProperties from "./components/FeaturedProperties";
 
@@ -34,11 +35,13 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Navbar toggleTheme={toggleTheme} mode={mode}/>
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/register" element={<SignUpPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
         </Routes>
       </ThemeProvider>
     </>

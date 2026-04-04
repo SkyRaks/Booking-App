@@ -13,7 +13,7 @@ from apps.guests.models import *
 
 class GuestModelTest(TestCase): 
     def create_guest(self):
-        user = User.objects.create_user(username="oliverGuest", password="password123")
+        user = User.objects.create_user(username="oliverGuest", email="test@mail.com", password="password123")
         guest = Guest.objects.create(user=user)
         
         return guest
@@ -54,3 +54,16 @@ class GuestModelTest(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn("access", res.data)
         self.assertIn("refresh", res.data)
+    
+    def test_can_login(self):
+        guest = self.create_guest()
+        self.client = APIClient()
+        url = reverse("login-guest")
+
+        res = self.client.post(url, {
+            "email": "test@mail.com",
+            "password": "password123",
+        }, format="json")
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.data["user"]["id"], guest.id)

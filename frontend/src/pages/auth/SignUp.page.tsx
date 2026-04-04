@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography, MenuItem, Paper } from "@mui/material";
+import { Box, TextField, Button, Typography, MenuItem, Paper, Snackbar, Container } from "@mui/material";
 import { useAuth } from "../../services/user.auth.ts";
 
 type Role = "owner" | "guest";
@@ -52,6 +52,7 @@ export default function SignUpPage() {
     }
 
     return (
+        <Container>
         <Box display="flex" justifyContent="center" mt={5}>
             <Paper sx={{p: 4, width: 400}}>
                 <Typography>Sign Up</Typography>
@@ -104,5 +105,6 @@ export default function SignUpPage() {
                 <Button variant="contained" fullWidth sx={{mt: 2}} onClick={handleSubmit}>Register</Button>
             </Paper>
         </Box>
+        </Container>
     );
 }
