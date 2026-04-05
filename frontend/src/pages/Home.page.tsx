@@ -3,11 +3,13 @@ import { Box, CssBaseline, Button, Container } from "@mui/material";
 import Hero from "../components/Hero";
 import FeaturedProperties from "../components/FeaturedProperties";
 import { useAuth } from "../services/user.auth";
-import { useState } from "react";
+// import { useState } from "react";
 
 export default function Home() {
     const accessToken = useAuth((state) => state.accessToken)
-    console.log(accessToken)
+    const refreshToken = useAuth((state) => state.refreshToken)
+    console.log("access token: ", accessToken)
+    console.log("refresh token: ", refreshToken)
     return (
         <Container>
             <CssBaseline />

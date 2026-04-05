@@ -53,7 +53,7 @@ export default function LoginPage() {
         <Container>
         <Box display="flex" justifyContent="center" mt={5}>
             <Paper sx={{p: 4, width: 400}}>
-                <Typography>Login</Typography>
+                <Typography variant="h5" textAlign="center">Login</Typography>
 
                 <TextField 
                     label="Email" 

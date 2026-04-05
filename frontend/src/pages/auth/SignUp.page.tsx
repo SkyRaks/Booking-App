@@ -55,7 +55,7 @@ export default function SignUpPage() {
         <Container>
         <Box display="flex" justifyContent="center" mt={5}>
             <Paper sx={{p: 4, width: 400}}>
-                <Typography>Sign Up</Typography>
+                <Typography variant="h5" textAlign="center">Sign Up</Typography>
 
                 <TextField 
                     label="Username" 
