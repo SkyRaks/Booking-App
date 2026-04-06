@@ -36,7 +36,7 @@ export default function Narbar({toggleTheme, mode}: Props) {
                 role = user.role + "s"
             }
 
-            const res = await fetch(`http://127.0.0.1:8000/${role}/logout/`, {
+            const res = await fetch(`http://localhost:8000/${role}/logout/`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

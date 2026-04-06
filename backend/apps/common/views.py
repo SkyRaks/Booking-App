@@ -20,7 +20,7 @@ class RefreshTokensView(APIView):
 
     def post(self, request):
         try:
-            print(request.COOKIES)
+            # print(request.COOKIES)
             refreshToken = request.COOKIES.get("refreshToken")
 
             if not refreshToken:
