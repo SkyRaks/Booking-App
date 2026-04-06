@@ -29,14 +29,7 @@ export default function Narbar({toggleTheme, mode}: Props) {
 
     const handleLogout = async() => {
         try {
-            let role: string | null;
-            if (!user.role) {
-                return 
-            } else {
-                role = user.role + "s"
-            }
-
-            const res = await fetch(`http://localhost:8000/${role}/logout/`, {
+            const res = await fetch(`http://localhost:8000/common/logout/`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

@@ -17,7 +17,7 @@ type AuthState = {
     // setRefreshToken: (token: string | null) => void;
     setUser: (user: User) => void;
 
-    loginUser: (data: {email: string; password: string}, role: Role) => Promise<{
+    loginUser: (data: {email: string; password: string, role: Role}) => Promise<{
         success: boolean,
         message: string,
     }>;
@@ -30,21 +30,17 @@ type AuthState = {
 
 export const useAuth = create<AuthState>((set) => ({
     accessToken: null,
-    // refreshToken: null,
     user: {},
 
     setAccessToken: (accessToken) => set({accessToken}),
-    // setRefreshToken: (refreshToken) => set({refreshToken}),
     setUser: (user) => set({user}),
 
-    loginUser: async(logUser, role) => {
-        if (!logUser.email || !logUser.password) {
+    loginUser: async(logUser) => {
+        if (!logUser.email || !logUser.password || !logUser.role) {
             return {success: false, message: "provide all fields"}
         }
 
-        const endpoint = role === "owner" ? "owners/login/" : "guests/login/";
-
-        const res = await fetch(`http://localhost:8000/${endpoint}`, {
+        const res = await fetch(`http://localhost:8000/common/login/`, {
             method: "POST",
             headers: {"Content-type":"application/json"},
             body:JSON.stringify(logUser),
@@ -56,7 +52,6 @@ export const useAuth = create<AuthState>((set) => ({
 
         set({
             accessToken: data.access,
-            // refreshToken: data.refresh,
             user: data.user,
         });
 

@@ -36,16 +36,14 @@ export default function LoginPage() {
         const res = await loginUser({
             email: form.email,
             password: form.password,
-        },
-        form.role,
-        )
+            role: form.role,
+        })
         console.log(res.success)
 
         if (!res.success) {
             setError(res.message)
         } else {
             alert("You've been logged in")
-            // console.log()
         }
     }
 
