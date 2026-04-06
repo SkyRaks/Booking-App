@@ -6,10 +6,10 @@ import { useAuth } from "../services/user.auth";
 // import { useState } from "react";
 
 export default function Home() {
-    const accessToken = useAuth((state) => state.accessToken)
-    const refreshToken = useAuth((state) => state.refreshToken)
-    console.log("access token: ", accessToken)
-    console.log("refresh token: ", refreshToken)
+    const user = useAuth((state) => state.user);
+    const access = useAuth((state) => state.accessToken);
+    console.log("user: ", user)
+    console.log("access: ", access)
     return (
         <Container>
             <CssBaseline />

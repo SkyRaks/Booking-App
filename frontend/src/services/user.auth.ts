@@ -10,11 +10,11 @@ type User = {
 
 type AuthState = {
     accessToken: string | null;
-    refreshToken: string | null;
+    // refreshToken: string | null;
     user: User;
 
     setAccessToken: (token: string | null) => void;
-    setRefreshToken: (token: string | null) => void;
+    // setRefreshToken: (token: string | null) => void;
     setUser: (user: User) => void;
 
     loginUser: (data: {email: string; password: string}, role: Role) => Promise<{
@@ -30,11 +30,11 @@ type AuthState = {
 
 export const useAuth = create<AuthState>((set) => ({
     accessToken: null,
-    refreshToken: null,
+    // refreshToken: null,
     user: {},
 
     setAccessToken: (accessToken) => set({accessToken}),
-    setRefreshToken: (refreshToken) => set({refreshToken}),
+    // setRefreshToken: (refreshToken) => set({refreshToken}),
     setUser: (user) => set({user}),
 
     loginUser: async(logUser, role) => {
@@ -43,9 +43,8 @@ export const useAuth = create<AuthState>((set) => ({
         }
 
         const endpoint = role === "owner" ? "owners/login/" : "guests/login/";
-        console.log("logUser: ", logUser);
 
-        const res = await fetch(`http://127.0.0.1:8000/${endpoint}`, {
+        const res = await fetch(`http://localhost:8000/${endpoint}`, {
             method: "POST",
             headers: {"Content-type":"application/json"},
             body:JSON.stringify(logUser),
@@ -57,7 +56,7 @@ export const useAuth = create<AuthState>((set) => ({
 
         set({
             accessToken: data.access,
-            refreshToken: data.refresh,
+            // refreshToken: data.refresh,
             user: data.user,
         });
 
@@ -71,7 +70,7 @@ export const useAuth = create<AuthState>((set) => ({
 
         const endpoint = role === "owner" ? "owners/register/" : "guests/register/";
 
-        const res = await fetch(`http://127.0.0.1:8000/${endpoint}`, {
+        const res = await fetch(`http://localhost:8000/${endpoint}`, {
             method: "POST",
             headers: {"Content-type":"application/json"},
             body:JSON.stringify(newUser),

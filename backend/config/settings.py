@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'apps.owners.apps.OwnersConfig',
     'apps.guests.apps.GuestsConfig',
 
+    'apps.common.apps.CommonConfig',
+
     'apps.bookings.apps.BookingsConfig',
     'apps.properties.apps.PropertiesConfig',
 ]

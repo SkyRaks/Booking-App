@@ -13,6 +13,7 @@ type Props = {
 export default function Narbar({toggleTheme, mode}: Props) {
     const accessToken = useAuth((state) => state.accessToken)
     const setAccessToken = useAuth((state) => state.setAccessToken)
+    const setUser = useAuth((state) => state.setUser)
 
     const user = useAuth((state) => state.user)
 
@@ -44,6 +45,7 @@ export default function Narbar({toggleTheme, mode}: Props) {
             })
             if (res.ok) {
                 setAccessToken(null);
+                setUser({});
                 console.log("you've logged out")
             } else {
                 console.log("failed to logout", res.status)
@@ -86,14 +88,15 @@ export default function Narbar({toggleTheme, mode}: Props) {
 
                     <Box>
                         <Button color="inherit" onClick={toggleTheme}>Theme</Button>
-                        {accessToken === null ? (
+                        {accessToken !== null ? (
+                            <Button color="inherit" onClick={handleOpen}>Logout</Button>
+                        ) : (
                             <Fragment>
                                 <Button color="inherit" component={Link} to="/register">Register</Button>
                                 <Button color="inherit" component={Link} to="/login">Login</Button>
                             </Fragment>
-                        ) : (
-                            <Button color="inherit" onClick={handleOpen}>Logout</Button>
                         )}
+                        {/* <Button color="inherit" component={Link} to="/login">Login</Button> */}
                     </Box>
                 </Toolbar>
             </AppBar>

@@ -43,11 +43,15 @@ class LoginGuestView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data["user"]
             refresh = RefreshToken.for_user(user)
+            if hasattr(user, "guest"):
+                refresh["role"] = "guest"
+            elif hasattr(user, "owner"):
+                refresh["role"] = "owner"
 
             response = Response({
                 "message": "logged in",
                 "access": str(refresh.access_token),
-                "refresh": str(refresh),
+                # "refresh": str(refresh),
                 "user": {
                     "id": user.id,
                     "username": user.username,
@@ -60,8 +64,8 @@ class LoginGuestView(APIView):
                 key="refreshToken",
                 value=str(refresh),
                 httponly=True,
-                secure=True,
-                samesite="None"
+                secure=False,
+                samesite="Lax"
             )
             return response
         print(serializer.errors)
@@ -73,8 +77,6 @@ class LogoutGuestView(APIView):
     def post(self, request):
         try:
             refreshToken = request.COOKIES.get("refreshToken")
-            print("cookies", request.COOKIES)
-            print("refresh token: ", refreshToken)
 
             if not refreshToken:
                 return Response({"error": "no refresh token"}, status=status.HTTP_400_BAD_REQUEST)
@@ -85,6 +87,11 @@ class LogoutGuestView(APIView):
                 "message": "logged out",
             }, status=status.HTTP_205_RESET_CONTENT)
             response.delete_cookie("refreshToken")
+
+            response.delete_cookie(
+                key="refreshToken",
+                samesite="Lax"
+            )
 
             return response
         except Exception as e:
