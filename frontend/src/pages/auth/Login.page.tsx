@@ -38,7 +38,7 @@ export default function LoginPage() {
             password: form.password,
             role: form.role,
         })
-        console.log(res.success)
+        // console.log(res.success)
 
         if (!res.success) {
             setError(res.message)

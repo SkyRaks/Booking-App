@@ -80,16 +80,20 @@ export default function Narbar({toggleTheme, mode}: Props) {
                     </Typography>                
 
                     <Box>
-                        <Button color="inherit" onClick={toggleTheme}>Theme</Button>
                         {accessToken !== null ? (
-                            <Button color="inherit" onClick={handleOpen}>Logout</Button>
+                            <Fragment>
+                                {user?.role === "owner" && (
+                                    <Button color="inherit"component={Link} to="/create">Create Property</Button>    
+                                )}
+                                <Button color="inherit" onClick={handleOpen}>Logout</Button>
+                            </Fragment>
                         ) : (
                             <Fragment>
                                 <Button color="inherit" component={Link} to="/register">Register</Button>
                                 <Button color="inherit" component={Link} to="/login">Login</Button>
                             </Fragment>
                         )}
-                        {/* <Button color="inherit" component={Link} to="/login">Login</Button> */}
+                        <Button color="inherit" onClick={toggleTheme}>Theme</Button>
                     </Box>
                 </Toolbar>
             </AppBar>

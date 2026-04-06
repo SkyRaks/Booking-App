@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Home from "./pages/Home.page";
 import SignUpPage from "./pages/auth/SignUp.page";
 import LoginPage from "./pages/auth/Login.page";
+import CreatePropertyPage from "./pages/CreateProperty.page";
+// CreateProperty.page.tsx
 
 import { useAuth } from "./services/user.auth";
 
@@ -70,6 +72,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/register" element={<SignUpPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/create" element={<CreatePropertyPage />}></Route>
         </Routes>
       </ThemeProvider>
     </>

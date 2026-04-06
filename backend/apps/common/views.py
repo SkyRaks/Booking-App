@@ -60,9 +60,11 @@ class LoginView(APIView):
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
+        print("serializer: ", serializer)
 
         if serializer.is_valid():
             user = serializer.validated_data["user"]
+            role = serializer.validated_data["role"]
             refresh = RefreshToken.for_user(user)
             if hasattr(user, "guest"):
                 refresh["role"] = "guest"
@@ -76,7 +78,7 @@ class LoginView(APIView):
                     "id": user.id,
                     "username": user.username,
                     "email": user.email,
-                    "role": "guest"
+                    "role": role
                 }
             })
 

@@ -10,11 +10,9 @@ type User = {
 
 type AuthState = {
     accessToken: string | null;
-    // refreshToken: string | null;
     user: User;
 
     setAccessToken: (token: string | null) => void;
-    // setRefreshToken: (token: string | null) => void;
     setUser: (user: User) => void;
 
     loginUser: (data: {email: string; password: string, role: Role}) => Promise<{
@@ -22,7 +20,9 @@ type AuthState = {
         message: string,
     }>;
 
-    registerUser: (data: {username: string; email: string; password: string}, role: Role) => Promise<{
+    registerUser: (data: {username: string; email: string; password: string}, 
+        role: Role
+    ) => Promise<{
         success: boolean,
         message: string,
     }>
