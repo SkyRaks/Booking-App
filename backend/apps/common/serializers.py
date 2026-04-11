@@ -11,19 +11,19 @@ class LoginSerializer(serializers.Serializer):
         email = data.get("email")
         password = data.get("password")
         role = data.get("role") # guest for example
-        print("role: ", role)
+        # print("role: ", role)
 
         try:
             user = User.objects.get(email=email)
             if not hasattr(user, role):
-                raise serializers.ValidationError("invalid role")
+                raise serializers.ValidationError({"role": "invalid role"})
         except User.DoesNotExist:
-            raise serializers.ValidationError("invalid credentials")
+            raise serializers.ValidationError({"non_field_errors": "invalid credentials"})
 
         user = authenticate(username=user.username, password=password, role=role)  
-        print("user: ", user)
+        # print("user: ", user)
         if not user:
-            raise serializers.ValidationError("invalid credentials")
+            raise serializers.ValidationError({"non_field_errors": "invalid credentials"})
         
         data["user"] = user
         data["role"] = role

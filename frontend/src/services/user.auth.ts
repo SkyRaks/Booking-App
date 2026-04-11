@@ -48,7 +48,12 @@ export const useAuth = create<AuthState>((set) => ({
         });
 
         const data = await res.json()
-        if (!res.ok) return {success: false, message: data.message}
+        if (!res.ok) {
+            return {
+                success: false, 
+                message: (data.errors.role ? data.errors.role[0] : data.errors.non_field_errors[0])
+            }
+        }
 
         set({
             accessToken: data.access,

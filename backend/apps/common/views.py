@@ -60,7 +60,8 @@ class LoginView(APIView):
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        print("serializer: ", serializer)
+        # if serializer.errors:
+        #     print("serializer: ", serializer.error_messages)
 
         if serializer.is_valid():
             user = serializer.validated_data["user"]
@@ -90,8 +91,9 @@ class LoginView(APIView):
                 samesite="Lax"
             )
             return response
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("serializer errors: ", serializer.errors)
+            return Response({"messsage": "login failed", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
