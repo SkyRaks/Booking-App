@@ -10,8 +10,7 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
-        role = data.get("role") # guest for example
-        # print("role: ", role)
+        role = data.get("role") 
 
         try:
             user = User.objects.get(email=email)
@@ -21,7 +20,6 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError({"non_field_errors": "invalid credentials"})
 
         user = authenticate(username=user.username, password=password, role=role)  
-        # print("user: ", user)
         if not user:
             raise serializers.ValidationError({"non_field_errors": "invalid credentials"})
         

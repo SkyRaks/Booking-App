@@ -1,24 +1,9 @@
 import {Container,Typography,TextField,Grid,Card,CardContent,Checkbox,FormControlLabel,Button,Stepper, Step, StepLabel} from "@mui/material";
 import { useState } from "react";
+import { type PropertyForm, type Room } from "../services/owner.service"
+import { createProperty } from "../services/owner.service";
 
-type Room = {
-  name: string;
-  price_per_night: number;
-};
-
-type PropertyForm = {
-  title: string;
-  description: string;
-  location: string;
-  price_per_night: number;
-  number_of_guests: number;
-  rooms: number;
-  amenities: string[];
-  rooms_list: Room[];
-  images: File[];
-};
-
-// {
+// { EXAMPLE
 //   "id": 1,
 //   "title": "Modern Apartment",
 //   "description": "...",
@@ -84,21 +69,14 @@ export default function CreatePropertyPage() {
     };
 
     const handleSubmit = async () => {
-        const data = new FormData();
+      console.log("form: ", form)
+        const res = await createProperty(form);
 
-        Object.entries(form).forEach(([key, value]) => {
-        if (key === "images") {
-            form.images.forEach((img) => data.append("images", img));
+        if (!res.success) {
+          console.log(res.data)
         } else {
-            data.append(key, JSON.stringify(value));
+          console.log("property added")
         }
-        });
-
-        await fetch("/api/properties/", {
-        method: "POST",
-        body: data,
-        credentials: "include",
-        });
     };
 
     return (

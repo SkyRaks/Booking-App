@@ -8,7 +8,7 @@ type User = {
     role?: Role;
 };
 
-type AuthState = {
+export type AuthState = {
     accessToken: string | null;
     user: User;
 
