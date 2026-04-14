@@ -31,5 +31,4 @@ class PropertyCreateSerializer(serializers.ModelSerializer):
         
         for image in images_data:
             PropertyImage.objects.create(property=property, **image)
-        
         return property

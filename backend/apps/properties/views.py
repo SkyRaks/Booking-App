@@ -14,6 +14,7 @@ class PropertyView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        # USER'S PROPERTIES
         properties = Property.objects.filter(owner=request.user.owner)
         data = [{
             "id": p.id,
@@ -34,3 +35,29 @@ class PropertyView(APIView):
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PropertiesView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        # HOME PAGE PROPERTIES
+        properties = Property.objects.all() # later some filters
+
+        data = []
+        for p in properties:
+            images = p.images.all()
+
+            data.append({
+                "id": p.id,
+                "owner": p.owner.name,
+                "title": p.title,
+                "description": p.description,
+                "location": p.location,
+                "price_per_night": float(p.price_per_night),
+                "number_of_guests": p.number_of_guests,
+                "amenities": p.amenities,
+                "rooms": p.rooms,
+                "images": [img.image.url for img in images]
+            }) # for images later with S3
+        print("data: ", data)
+        return Response(data, status=status.HTTP_200_OK)
