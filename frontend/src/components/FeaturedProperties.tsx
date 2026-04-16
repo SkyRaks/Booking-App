@@ -56,11 +56,10 @@ export default function FeaturedProperties() {
                 <Grid size={{xs: 12, md: 4}} key={p.title}>
                     <Card>
                         <CardMedia component="img" height="160" image={`http://localhost:8000${p.images?.[0]}`} />
-                        {/* {console.log("image: ", p.images[0])} */}
                         <CardContent>
                             <Typography variant="h6">{p.title}</Typography>
                             <Typography variant="body2">{p.location}</Typography>
-                            <Typography variant="subtitle1">{p.price_per_night}</Typography>
+                            <Typography variant="subtitle1">{p.price_per_night}$</Typography>
                         </CardContent>
                     </Card>
                 </Grid>

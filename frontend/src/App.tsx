@@ -7,7 +7,7 @@ import Home from "./pages/Home.page";
 import SignUpPage from "./pages/auth/SignUp.page";
 import LoginPage from "./pages/auth/Login.page";
 import CreatePropertyPage from "./pages/CreateProperty.page";
-// CreateProperty.page.tsx
+import PropertyPage from './pages/ProperyPage';
 
 import { useAuth } from "./services/user.auth";
 
@@ -73,6 +73,7 @@ function App() {
           <Route path="/register" element={<SignUpPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/create" element={<CreatePropertyPage />}></Route>
+          <Route path="/property/:id" element={<PropertyPage />}></Route>
         </Routes>
       </ThemeProvider>
     </>
