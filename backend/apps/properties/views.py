@@ -10,31 +10,27 @@ from .serializers import *
 
 # Create your views here.
 
-# class PropertyView(APIView):
-#     permission_classes = [IsAuthenticated]
+class AddPropertyView(APIView):
+    permission_classes = [IsAuthenticated]
 
-#     def get(self, request):
-#         # OWNER'S PROPERTIES NOT FINISHED
-#         properties = Property.objects.filter(owner=request.user.owner)
-#         data = [{
-#             "id": p.id,
-#             "title": p.title
-#         } for p in properties]
+    def post(self, request):
+        print("view check")
+        serializer = OwnerAddPropertySerializer(data=request.data, context={"request": request})
+        # print("serializer: ", serializer)
 
-#         return Response(data, status=status.HTTP_200_OK)
+        if serializer.is_valid():
+            data = serializer.save()
 
-#     def post(self, request):
-#         serializer = PropertyCreateSerializer(data=request.data)
-
-#         if serializer.is_valid():
-#             property = serializer.save(owner=request.user.owner)
-
-#             return Response({
-#                 "id": property.id,
-#                 "title": property.title
-#             }, status=status.HTTP_201_CREATED)
-        
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": "propery added",
+                "data": {
+                    "id": data.id,
+                    "title": data.title
+                }
+            }, status=status.HTTP_201_CREATED)
+        else:
+            print("errors: ", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PropertiesView(APIView):
     permission_classes = [AllowAny]
@@ -92,20 +88,3 @@ class PropertyView(APIView):
             "images": prop_images,
             "rooms_list": rooms_list,
         }, status=status.HTTP_200_OK)
-
-
-# {
-#   "id": 1,
-#   "title": "Modern Apartment",
-#   "description": "...",
-#   "location": "Toronto",
-#   "price_per_night": 120,
-#   "number_of_guests": 3,
-#   "amenities": ["wifi", "kitchen"],
-#   "images": [
-#     { "image": "/media/properties/1.jpg" }
-#   ],
-#   "rooms_list": [
-#     { "name": "Bedroom", "price_per_night": 80 }
-#   ]
-# }

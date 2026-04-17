@@ -1,34 +1,51 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import *
+import json
 
-class PropertyImageCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PropertyImage
-        fields = ["image"]
-
-class RoomCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Room
-        fields = ["name", "price_per_night"]
-    
-class PropertyCreateSerializer(serializers.ModelSerializer):
-    images = PropertyImageCreateSerializer(many=True, required=False)
-    rooms = RoomCreateSerializer(many=True, required=False)
-
-    class Meta:
-        model = Property
-        fields = ["title", "description", "location", "price_per_night", "number_of_guests", "amenities", "images", "rooms"]
+class OwnerAddPropertySerializer(serializers.Serializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+    location = serializers.CharField()
+    price_per_night = serializers.FloatField()
+    number_of_guests = serializers.IntegerField()
+    amenities = serializers.CharField()
+    rooms = serializers.IntegerField()
+    rooms_list = serializers.CharField()
     
     def create(self, validated_data):
-        images_data = validated_data.pop("images", [])
-        rooms_data = validated_data.pop("rooms", [])
+        print("serializer check")
+        request = self.context['request']
 
-        property = Property.objects.create(**validated_data)
+        amenities = json.loads(validated_data['amenities'])
+        rooms_list = json.loads(validated_data['rooms_list'])
 
-        for room in rooms_data:
-            Room.objects.create(property=property, **room)
-        
-        for image in images_data:
-            PropertyImage.objects.create(property=property, **image)
-        return property
+        owner = request.user.owner
+
+        prop = Property.objects.create(
+            owner = owner,
+            title = validated_data['title'],
+            description = validated_data['description'],
+            location = validated_data['location'],
+            price_per_night = validated_data['price_per_night'],
+            number_of_guests = validated_data['number_of_guests'],
+            amenities = amenities,
+            rooms = validated_data['rooms'],
+        )
+        print("pass prop")
+        images = request.FILES.getlist("images")
+        for img in images:
+            PropertyImage.objects.create(
+                property = prop,
+                image = img,    
+            )
+        print("pass images")
+
+        for room in rooms_list:
+            room = Room.objects.create(
+                property = prop,
+                name = room['name'],
+                price_per_night = room['price_per_night'],
+            )
+        print("pass rooms")
+        return prop

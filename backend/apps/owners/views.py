@@ -29,21 +29,3 @@ class CreateOwnerView(APIView):
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class AddPropertyView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        serializer = OwnerAddPropertySerializer(data=request.data, context={"request": request})
-
-        if serializer.is_valid():
-            data = serializer.save()
-
-            return Response({
-                "message": "propery added",
-                "data": {
-                    "id": data.id,
-                    "title": data.title
-                }
-            })
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

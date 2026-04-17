@@ -6,28 +6,14 @@ from apps.properties.models import *
 # from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+import json
 
 from apps.owners.tests import OwnerModelTest
 
 # Create your tests here.
 
 class PropertyModelTest(TestCase):
-
-    def create_property(self, owner=None):
-        if owner is None:
-            # owner = OwnerModelTest.create_owner(self, owner=None)
-            owner = Owner.objects.create(
-                user=User.objects.create(username="owner1", password="123")
-            )
-
-        property = Property.objects.create(
-            owner=owner,
-            title="test property",
-            description="test description",
-            location="test location",
-            price_per_night=100,
-        )
-        return property
 
     def test_can_create_property(self):
         OwnerModelTest.create_owner(self)
@@ -36,14 +22,28 @@ class PropertyModelTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
 
-        url = reverse("properties")
+        url = reverse("add-property")
+
+        image = SimpleUploadedFile(
+            name="test.jpg",
+            content=b"file_content",
+            content_type="image/jpeg"
+        )
 
         res = client.post(url, {
             "title": "my property",
             "description": "my description",
             "location": "toronto",
             "price_per_night": 100,
-        }, format="json")
+            "number_of_guests": 2,
+            "rooms": 2,
+
+            "amenities": json.dumps(['wifi', 'kitchen', 'parking']),
+            "rooms_list": json.dumps([
+                {"name": "Bedroom", "price_per_night": 80}
+            ]),
+            "images": image
+        }, format="multipart")
 
         self.assertEqual(res.status_code, 201)
-        self.assertEqual("my property", res.data["title"])
+        self.assertEqual("my property", res.data['data']['title'])

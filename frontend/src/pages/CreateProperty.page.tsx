@@ -1,7 +1,7 @@
 import {Container,Typography,TextField,Grid,Card,CardContent,Checkbox,FormControlLabel,Button,Stepper, Step, StepLabel} from "@mui/material";
 import { useState } from "react";
-import { type PropertyForm, type Room } from "../services/owner.service"
-import { createProperty } from "../services/owner.service";
+import { type PropertyForm, type Room } from "../services/property.service"
+import { createProperty } from "../services/property.service";
 
 // { EXAMPLE
 //   "id": 1,
