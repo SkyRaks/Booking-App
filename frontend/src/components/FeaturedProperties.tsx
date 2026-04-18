@@ -2,18 +2,7 @@ import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { useEffect } from "react";
 
 import { usePropertiesStore } from "../services/common.service";
-// type FetchProperty = {
-//     id: number,
-//     owner: string,
-//     title: string,
-//     description: string,
-//     location: string,
-//     price_per_night: number,
-//     number_of_guests: number,
-//     amenities: string[],
-//     rooms: number,
-//     image: string[],
-// }
+import { Link } from "react-router-dom";
 
 export default function FeaturedProperties() {
     const {properties, setProperties} = usePropertiesStore();
@@ -21,7 +10,6 @@ export default function FeaturedProperties() {
     useEffect(() => {
         setProperties();
     }, [])
-    // console.log("properties: ", properties);
 
     return (
         <>
@@ -32,7 +20,7 @@ export default function FeaturedProperties() {
         <Grid container spacing={3}>
             {properties.map((p) => (
                 <Grid size={{xs: 12, md: 4}} key={p.title}>
-                    <Card>
+                    <Card component={Link} to={`/property/${p.id}`}>
                         <CardMedia component="img" height="160" image={`http://localhost:8000${p.images?.[0]}`} />
                         <CardContent>
                             <Typography variant="h6">{p.title}</Typography>

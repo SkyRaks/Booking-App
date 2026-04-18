@@ -16,6 +16,7 @@ export default function PropertyPage() {
         fetchData();
     }, [id]);
     if (!property) return <div>Loading...</div>
+
     return (
         <Container maxWidth="lg" sx={{mt: 4}}>
             <Typography variant="h4" gutterBottom>
@@ -25,23 +26,32 @@ export default function PropertyPage() {
             <Typography variant="body1" color="text.secondary">
                 {property.location}
             </Typography>
-            
-            <Grid container spacing={2} sx={{mt: 2}}>
-                {property.images?.map((img: any, i: number) => (
-                    <Grid key={i} size={4}>
-                        <img
-                            src={img.image}
+
+            <Grid container spacing={4} sx={{ mt: 2 }}>
+                <Grid size={8}>
+                    <Grid container spacing={2} sx={{mt: 2}}>
+                        <Grid size={8}>
+                            <img
+                            src={`http://localhost:8000${property.images?.[0].image}`}
+                            // src={`http://localhost:8000${img.image}`}
                             style={{width: "100%", borderRadius: 8}}
                         />
-                    </Grid>
-                ))}
-            </Grid>
+                        </Grid>
 
-            <Grid container spacing={4} sx={{mt: 3}}>
-                <Grid size={8}>
+                        {property.images?.slice(1, 5).map((img: any, i: number) => (
+                            <Grid key={i} size={4}>
+                                <img
+                                    // src={`http://localhost:8000${property.images?.[0].image}`}
+                                    src={`http://localhost:8000${img.image}`}
+                                    style={{width: "100%", borderRadius: 8}}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+
                     <Typography variant="h6">Description</Typography>
                     <Typography>{property.description}</Typography>
-                    
+
                     <Typography variant="h6" sx={{ mt: 3 }}>
                         Amenities
                     </Typography>

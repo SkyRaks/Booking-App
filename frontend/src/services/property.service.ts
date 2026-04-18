@@ -50,7 +50,6 @@ export const createProperty = async (form: PropertyForm) => {
     const res = await fetch("http://localhost:8000/properties/add-property/", {
         method: "POST",
         headers: {
-            // "Content-type": "application/json",
             "Authorization": `Bearer ${accessToken}`
         },
         body: data,
