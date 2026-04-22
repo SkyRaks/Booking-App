@@ -73,7 +73,7 @@ export default function CreatePropertyPage() {
         const res = await createProperty(form);
 
         if (!res.success) {
-          console.log(res.data)
+          console.log(res.message)
         } else {
           console.log("property added")
         }

@@ -2,6 +2,7 @@ import { Container, Typography, Grid, Card, CardContent, Button, Dialog, DialogA
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProperty } from "../services/property.service";
+import { bookProperty } from "../services/property.service";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -30,7 +31,6 @@ export default function PropertyPage() {
     const [openWindow, setOpenWindow] = useState(false);
 
     const handleOpen = () => {
-        // const today: Date = new Date()
         setOpenWindow(true);
     }
 
@@ -39,12 +39,21 @@ export default function PropertyPage() {
     }
     // 
 
-    // const handleSubmit = async () => {
-    //     console.log("start date: ", checkIn)
-    //     console.log("end date: ", checkOut)
-    //     const res = await bookProperty(checkIn, checkOut, total);
-    //     if (res.success) handleClose();
-    // }
+    const handleSubmit = async () => {
+        // console.log("start date: ", checkIn)
+        // console.log("end date: ", checkOut)
+        const res = await bookProperty(
+            property.id, 
+            checkIn ? checkIn.format("YYYY-MM-DD") : null, 
+            checkOut ? checkOut.format("YYYY-MM-DD") : null, 
+            total
+        );
+        if (res.success) {
+            handleClose();
+        } else {
+            console.log("message", res.message)
+        }
+    }
 
     // GET DATA ON PAGE
     useEffect(() => {
@@ -98,7 +107,7 @@ export default function PropertyPage() {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button variant="contained" disabled={!checkIn || !checkOut} >Confirm</Button>
+                    <Button variant="contained" disabled={!checkIn || !checkOut} onClick={handleSubmit}>Confirm</Button>
                     <Button onClick={handleClose}>Cancel</Button>
                 </DialogActions>
 

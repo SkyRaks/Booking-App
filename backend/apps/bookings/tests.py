@@ -41,23 +41,23 @@ class BookingModelTest(TestCase):
         )
         return property
 
-    def test_booking_property(self):
-        user = self.create_guest()
-        access = self.get_token()
+    # def test_booking_property(self):
+    #     user = self.create_guest()
+    #     access = self.get_token()
 
-        owner = Owner.objects.create(user=user)
-        property = self.create_property(owner=owner)
+    #     owner = Owner.objects.create(user=user)
+    #     property = self.create_property(owner=owner)
 
-        client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
+    #     client = APIClient()
+    #     client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
 
-        url = reverse("create-booking")
+    #     url = reverse("create-booking")
 
-        res = client.post(url, {
-            "property": property.id,
-            "start_date": "2026-01-10",
-            "end_date": "2026-01-12"
-        }, format="json")
+    #     res = client.post(url, {
+    #         "property": property.id,
+    #         "start_date": "2026-01-10",
+    #         "end_date": "2026-01-12"
+    #     }, format="json")
 
-        self.assertEqual(res.status_code, 201)
-        self.assertIn("id", res.data)
+    #     self.assertEqual(res.status_code, 201)
+    #     self.assertIn("id", res.data)

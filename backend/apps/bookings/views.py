@@ -15,15 +15,12 @@ class BookPropertyView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        serializer = BookingCreateSerializer(
-            data=request.data, 
-            context={"request": request}
-        )
+        serializer = BookingCreateSerializer(data=request.data)
 
         if serializer.is_valid():
             booking = serializer.save()
 
-            return Response({"id": booking.id}, status=status.HTTP_201_CREATED)
+            return Response({"message": "property booked", "id": booking.id}, status=status.HTTP_201_CREATED)
         
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

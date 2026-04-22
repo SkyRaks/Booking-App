@@ -20,14 +20,6 @@ export type PropertyForm = {
   images: File[];
 };
 
-export type BookingForm = {
-  propertyId: string;
-  checkIn: string;
-  checkOut: string;
-  location: string;
-  total: number;
-};
-
 export const getProperty = async (id: string) => {
     // GET SINGLE PROPERTY FROM HOME PAGE
     const res = await fetch(`http://localhost:8000/properties/${id}`, {
@@ -66,21 +58,23 @@ export const createProperty = async (form: PropertyForm) => {
     const result = await res.json()
     
     if (!res.ok) return {success: false, message: result.message}
-    return {success: true, data: result.message}
+    return {success: true, message: result.message}
 }
 
-export const bookProperty = async (propertyId: string, checkIn: string, checkOut: string, total: number) => {
-    const data = new FormData()
-    // finish next time
-
+export const bookProperty = async (propertyId: string, checkIn: string | null, checkOut: string | null, total: number) => {
     const accessToken = useAuth.getState().accessToken;
-    const res = await fetch("http://localhost:8000/properties/book-property/", {
+    const res = await fetch("http://localhost:8000/bookings/book-property/", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${accessToken}`,            
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-type": "application/json",
         },
-        body: data
-    }
-    )
+        body: JSON.stringify({propertyId, checkIn, checkOut, total})
+    });
+
+    const result = await res.json()
+    if (!res.ok) return {success: false, message: result.message}
+
+    return {success: true, message: result.message}
     
 }
