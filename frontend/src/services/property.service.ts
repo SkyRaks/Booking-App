@@ -20,6 +20,14 @@ export type PropertyForm = {
   images: File[];
 };
 
+export type BookingForm = {
+  propertyId: string;
+  checkIn: string;
+  checkOut: string;
+  location: string;
+  total: number;
+};
+
 export const getProperty = async (id: string) => {
     // GET SINGLE PROPERTY FROM HOME PAGE
     const res = await fetch(`http://localhost:8000/properties/${id}`, {
@@ -46,7 +54,6 @@ export const createProperty = async (form: PropertyForm) => {
         }
     });
     const accessToken = useAuth.getState().accessToken;
-    console.log("accessToken: ", accessToken)
     const res = await fetch("http://localhost:8000/properties/add-property/", {
         method: "POST",
         headers: {
@@ -60,4 +67,20 @@ export const createProperty = async (form: PropertyForm) => {
     
     if (!res.ok) return {success: false, message: result.message}
     return {success: true, data: result.message}
+}
+
+export const bookProperty = async (propertyId: string, checkIn: string, checkOut: string, total: number) => {
+    const data = new FormData()
+    // finish next time
+
+    const accessToken = useAuth.getState().accessToken;
+    const res = await fetch("http://localhost:8000/properties/book-property/", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,            
+        },
+        body: data
+    }
+    )
+    
 }

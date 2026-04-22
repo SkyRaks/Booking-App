@@ -10,7 +10,8 @@ from .serializers import *
 
 # Create your views here.
 
-class CreateBookingView(APIView):
+class BookPropertyView(APIView):
+    # REWORK TOMORROW
     permission_classes = [IsAuthenticated]
     
     def post(self, request):

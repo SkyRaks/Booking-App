@@ -6,7 +6,7 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ["property", "start_date", "end_date"]
+        fields = ["property", "checkIn", "checkOut", "total"]
     
     def create(self, validated_data):
         request = self.context["request"]

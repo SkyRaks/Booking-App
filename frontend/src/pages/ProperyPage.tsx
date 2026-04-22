@@ -1,12 +1,52 @@
-import { Container, Typography, Grid, Card, CardContent, Button } from "@mui/material";
+import { Container, Typography, Grid, Card, CardContent, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProperty } from "../services/property.service";
+
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function PropertyPage() {
     const { id } = useParams();
     const [property, setProperty] = useState<any>(null);
 
+    // FOR CHECKIN N OUT STUFF
+    const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
+    const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
+
+    const getNights = () => {
+        if (!checkIn || !checkOut) return 0;
+
+        const days = checkOut.diff(checkIn, "day");
+        return days > 0 ? days : 0
+    }
+
+    const nights = getNights()
+    const total = nights * (property?.price_per_night || 0);
+    // 
+
+    // FOR WINDOW
+    const [openWindow, setOpenWindow] = useState(false);
+
+    const handleOpen = () => {
+        // const today: Date = new Date()
+        setOpenWindow(true);
+    }
+
+    const handleClose = () => {
+        setOpenWindow(false);
+    }
+    // 
+
+    // const handleSubmit = async () => {
+    //     console.log("start date: ", checkIn)
+    //     console.log("end date: ", checkOut)
+    //     const res = await bookProperty(checkIn, checkOut, total);
+    //     if (res.success) handleClose();
+    // }
+
+    // GET DATA ON PAGE
     useEffect(() => {
         const fetchData = async () => {
             if (!id) return
@@ -16,9 +56,54 @@ export default function PropertyPage() {
         fetchData();
     }, [id]);
     if (!property) return <div>Loading...</div>
+    // 
 
     return (
         <Container maxWidth="lg" sx={{mt: 4}}>
+            <Dialog 
+                open={openWindow}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Select Check-in and Check-out:"}
+                </DialogTitle>
+
+                <DialogContent>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                            label="Check-In"
+                            value={checkIn}
+                            onChange={(newValue: Dayjs | null) => setCheckIn(newValue)}
+                            sx={{mt: 2, width: "100%"}}
+                        />
+
+                        <DatePicker 
+                            label="Check-Out"
+                            value={checkOut}
+                            onChange={(newValue: Dayjs | null) => setCheckOut(newValue)}
+                            sx={{mt: 2, width: "100%"}}
+                            minDate={checkIn || undefined}
+                        />
+
+                        <Typography sx={{mt: 2}}>
+                            {nights > 0 ? `${nights} nights` : "Select dates" }
+                        </Typography>
+                        <Typography variant="h6">
+                            Total: ${total}
+                        </Typography>
+
+                    </LocalizationProvider>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button variant="contained" disabled={!checkIn || !checkOut} >Confirm</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                </DialogActions>
+
+            </Dialog>
+
             <Typography variant="h4" gutterBottom>
                 {property.title}
             </Typography>
@@ -33,7 +118,6 @@ export default function PropertyPage() {
                         <Grid size={8}>
                             <img
                             src={`http://localhost:8000${property.images?.[0].image}`}
-                            // src={`http://localhost:8000${img.image}`}
                             style={{width: "100%", borderRadius: 8}}
                         />
                         </Grid>
@@ -41,7 +125,6 @@ export default function PropertyPage() {
                         {property.images?.slice(1, 5).map((img: any, i: number) => (
                             <Grid key={i} size={4}>
                                 <img
-                                    // src={`http://localhost:8000${property.images?.[0].image}`}
                                     src={`http://localhost:8000${img.image}`}
                                     style={{width: "100%", borderRadius: 8}}
                                 />
@@ -90,6 +173,7 @@ export default function PropertyPage() {
                             variant="contained"
                             fullWidth
                             sx={{ mt: 2 }}
+                            onClick={handleOpen}
                         >
                             Reserve
                         </Button>
