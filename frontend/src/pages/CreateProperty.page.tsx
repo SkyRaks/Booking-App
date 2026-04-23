@@ -21,7 +21,7 @@ import { createProperty } from "../services/property.service";
 //     {"name": "Living Room", "price_per_night": 40}
 //   ]
 // }
-const AMENITIES = ["wifi", "parking", "kitchen", "tv", "air_conditioning"];
+const AMENITIES = ["wifi", "parking", "kitchen", "tv", "air conditioning"];
 
 export default function CreatePropertyPage() {
     const [form, setForm] = useState<PropertyForm>({

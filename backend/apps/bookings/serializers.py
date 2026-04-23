@@ -16,8 +16,6 @@ class BookingCreateSerializer(serializers.ModelSerializer):
         propertyId = validated_data["propertyId"]
         property = get_object_or_404(Property, id=int(propertyId))
 
-        # owner = get_object_or_404(Owner, property.owner)
-
         start_date = validated_data["checkIn"]
         end_date = validated_data["checkOut"]
         total = validated_data["total"]

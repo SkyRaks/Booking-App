@@ -1,6 +1,8 @@
 import { Container, Typography, Grid, Card, CardContent, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { getProperty } from "../services/property.service";
 import { bookProperty } from "../services/property.service";
 
@@ -15,16 +17,18 @@ export default function PropertyPage() {
     // FOR CHECKIN N OUT STUFF
     const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
     const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
+    const [guestNum, setGuestNum] = useState(1);
 
     const getNights = () => {
         if (!checkIn || !checkOut) return 0;
 
         const days = checkOut.diff(checkIn, "day");
+        console.log(days);
         return days > 0 ? days : 0
     }
 
     const nights = getNights()
-    const total = nights * (property?.price_per_night || 0);
+    const total = guestNum * (nights * (property?.price_per_night || 0));
     // 
 
     // FOR WINDOW
@@ -40,13 +44,22 @@ export default function PropertyPage() {
     // 
 
     const handleSubmit = async () => {
-        // console.log("start date: ", checkIn)
-        // console.log("end date: ", checkOut)
+        if (!checkIn || !checkOut) {
+            console.log("select both dates")
+            return
+        }
+        const days = checkOut.diff(checkIn, "day");
+
+        if (days <= 0) {
+            console.log("invalid date range")
+            return
+        }
+
         const res = await bookProperty(
             property.id, 
             checkIn ? checkIn.format("YYYY-MM-DD") : null, 
             checkOut ? checkOut.format("YYYY-MM-DD") : null, 
-            total
+            guestNum * (days * (property?.price_per_night || 0)),
         );
         if (res.success) {
             handleClose();
@@ -75,7 +88,7 @@ export default function PropertyPage() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{textAlign: "center"}}>
                     {"Select Check-in and Check-out:"}
                 </DialogTitle>
 
@@ -92,8 +105,29 @@ export default function PropertyPage() {
                             label="Check-Out"
                             value={checkOut}
                             onChange={(newValue: Dayjs | null) => setCheckOut(newValue)}
-                            sx={{mt: 2, width: "100%"}}
                             minDate={checkIn || undefined}
+                            sx={{mt: 2, width: "100%"}}
+                        />
+
+                        <TextField 
+                            type="number" 
+                            label="Guests"
+                            value={guestNum}
+                            onChange={(e) => {
+                                const value = e.target.value
+                                if (value === '') {
+                                    setGuestNum(1)
+                                    return;
+                                }
+                                const num = parseInt(value);
+                                if (!isNaN(num) && num > 0) {
+                                    setGuestNum(num);
+                                    return;
+                                }
+                            }}
+                            // slotProps={{input: {inputProps: {min: 1, step: 1}}}}
+                            inputProps={{ min: 1, max: Number(property.number_of_guests),step: 1 }}
+                            sx={{mt: 2, width: "100%"}}
                         />
 
                         <Typography sx={{mt: 2}}>
@@ -103,11 +137,23 @@ export default function PropertyPage() {
                             Total: ${total}
                         </Typography>
 
+                        {checkIn && checkOut && checkOut.diff(checkIn, "day") <= 0 && (
+                            <Typography>
+                                Check-out must be after Check-in
+                            </Typography>
+                        )}
+
                     </LocalizationProvider>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button variant="contained" disabled={!checkIn || !checkOut} onClick={handleSubmit}>Confirm</Button>
+                    <Button 
+                        variant="contained" 
+                        disabled={!checkIn || !checkOut || checkOut.diff(checkIn, "day") <= 0} 
+                        onClick={handleSubmit}
+                    >
+                        Confirm
+                    </Button>
                     <Button onClick={handleClose}>Cancel</Button>
                 </DialogActions>
 

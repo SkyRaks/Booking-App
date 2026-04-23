@@ -12,7 +12,7 @@ class Booking(models.Model):
     end_date = models.DateField()
 
     total_price = models.FloatField()
-
+    number_of_guests = models.IntegerField()
     status = models.CharField(max_length=50, default="pending") # pending, confirmed, cancelled
 
     created_at = models.DateTimeField(auto_now_add=True)
