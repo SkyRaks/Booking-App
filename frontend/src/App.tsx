@@ -7,6 +7,7 @@ import Home from "./pages/Home.page";
 import SignUpPage from "./pages/auth/SignUp.page";
 import LoginPage from "./pages/auth/Login.page";
 import CreatePropertyPage from "./pages/CreateProperty.page";
+import OwnerBookingsPage from "./pages/OwnerProfile";
 import PropertyPage from './pages/ProperyPage';
 
 import { useAuth } from "./services/user.auth";
@@ -36,6 +37,7 @@ function App() {
 
   const setAccessToken = useAuth((state) => (state.setAccessToken));
   const setUser = useAuth((state) => (state.setUser));
+  const setAuthReady = useAuth((state) => state.setAuthReady);
 
   useEffect(() => {
     const refreshAccessToken = async() => {
@@ -57,6 +59,8 @@ function App() {
         setUser(data.user);
       } catch (error) {
         console.log(error);
+      } finally {
+        setAuthReady(true);
       }
     }
     refreshAccessToken();
@@ -73,6 +77,7 @@ function App() {
           <Route path="/register" element={<SignUpPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/create" element={<CreatePropertyPage />}></Route>
+          <Route path="/profile" element={<OwnerBookingsPage />}></Route>
           <Route path="/property/:id" element={<PropertyPage />}></Route>
         </Routes>
       </ThemeProvider>

@@ -11,7 +11,6 @@ from .serializers import *
 # Create your views here.
 
 class BookPropertyView(APIView):
-    # REWORK TOMORROW
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
@@ -24,4 +23,24 @@ class BookPropertyView(APIView):
         
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetBookingsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        bookings = Booking.objects.all()
+
+        data = []
+
+        for b in bookings:
+            data.append({
+                "id": b.id,
+                "guestNum": b.number_of_guests,
+                "property": b.property.title,
+                "dateFrom": b.start_date,
+                "dateTo": b.end_date,
+                "total_price": b.total_price,
+                "status": b.status
+            })
+        return Response(data, status=status.HTTP_200_OK)
         

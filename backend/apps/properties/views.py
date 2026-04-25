@@ -14,9 +14,7 @@ class AddPropertyView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print("view check")
         serializer = OwnerAddPropertySerializer(data=request.data, context={"request": request})
-        # print("serializer: ", serializer)
 
         if serializer.is_valid():
             data = serializer.save()

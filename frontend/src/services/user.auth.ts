@@ -12,8 +12,11 @@ export type AuthState = {
     accessToken: string | null;
     user: User;
 
+    isAuthReady: boolean;
+
     setAccessToken: (token: string | null) => void;
     setUser: (user: User) => void;
+    setAuthReady: (ready: boolean) => void;
 
     loginUser: (data: {email: string; password: string, role: Role}) => Promise<{
         success: boolean,
@@ -31,9 +34,11 @@ export type AuthState = {
 export const useAuth = create<AuthState>((set) => ({
     accessToken: null,
     user: {},
+    isAuthReady: false,
 
     setAccessToken: (accessToken) => set({accessToken}),
     setUser: (user) => set({user}),
+    setAuthReady: (ready) => set({isAuthReady: ready}),
 
     loginUser: async(logUser) => {
         if (!logUser.email || !logUser.password || !logUser.role) {

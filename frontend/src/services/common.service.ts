@@ -1,18 +1,5 @@
 import {create} from 'zustand';
 
-// type FetchProperty = {
-//     id: number,
-//     owner: string,
-//     title: string,
-//     // description: string,
-//     location: string,
-//     price_per_night: number,
-//     // number_of_guests: number,
-//     // amenities: string[],
-//     // rooms: number,
-//     images: string[],
-// }
-
 type FetchProperty = {
     id: number,
     owner: string,

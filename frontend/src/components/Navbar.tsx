@@ -83,7 +83,10 @@ export default function Narbar({toggleTheme, mode}: Props) {
                         {accessToken !== null ? (
                             <Fragment>
                                 {user?.role === "owner" && (
-                                    <Button color="inherit"component={Link} to="/create">Create Property</Button>    
+                                    <>
+                                        <Button color="inherit"component={Link} to="/create">Create Property</Button>    
+                                        <Button color="inherit"component={Link} to="/profile">Me</Button>    
+                                    </>
                                 )}
                                 <Button color="inherit" onClick={handleOpen}>Logout</Button>
                             </Fragment>
