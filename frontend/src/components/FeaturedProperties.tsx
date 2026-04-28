@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { usePropertiesStore } from "../services/common.service";
 import { Link } from "react-router-dom";
 
-export default function FeaturedProperties() {
-    const {properties, setProperties} = usePropertiesStore();
+interface Props {
+  properties: any[];
+}
 
-    useEffect(() => {
-        setProperties();
-    }, [])
+export default function FeaturedProperties({properties}: Props) {
 
     return (
         <>
@@ -19,9 +18,10 @@ export default function FeaturedProperties() {
 
         <Grid container spacing={3}>
             {properties.map((p) => (
-                <Grid size={{xs: 12, md: 4}} key={p.title}>
+                <Grid size={{xs: 12, md: 4}} key={p.id}>
                     <Card component={Link} to={`/property/${p.id}`}>
-                        <CardMedia component="img" height="160" image={`http://localhost:8000${p.images?.[0]}`} />
+                        {/* <CardMedia component="img" height="160" image={`http://localhost:8000${p.images?.[0]}`} /> */}
+                        <CardMedia component="img" height="160" image={`http://localhost:8000${p.images}`} />
                         <CardContent>
                             <Typography variant="h6">{p.title}</Typography>
                             <Typography variant="body2">{p.location}</Typography>

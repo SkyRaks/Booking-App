@@ -86,3 +86,32 @@ class PropertyView(APIView):
             "images": prop_images,
             "rooms_list": rooms_list,
         }, status=status.HTTP_200_OK)
+    
+class SearchView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        location = request.data.get("location")
+        guests = request.data.get("guests")
+
+        properties = Property.objects.all()
+
+        if location:
+            properties = Property.objects.filter(location__icontains=location)
+        if guests:
+            try:
+                properties = Property.objects.filter(number_of_guests__gte=guests)
+            except ValueError:
+                pass
+        data = []
+        
+        for p in properties:
+            img = PropertyImage.objects.filter(property=p).first()
+            data.append({
+                "id": p.id,
+                "title": p.title,
+                "location": p.location,
+                "price": p.price_per_night,
+                "images": img.image.url if img else None
+            })
+        return Response(data, status=status.HTTP_200_OK)

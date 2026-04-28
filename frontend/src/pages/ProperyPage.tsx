@@ -1,16 +1,19 @@
-import { Container, Typography, Grid, Card, CardContent, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField } from "@mui/material";
+import {Box, Container, Typography, Grid, Card, CardContent, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, CircularProgress } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { getProperty } from "../services/property.service";
 import { bookProperty } from "../services/property.service";
+import { useAuth} from "../services/user.auth";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 
 export default function PropertyPage() {
+    const accessToken = useAuth((state) => state.accessToken);
+
     const { id } = useParams();
     const [property, setProperty] = useState<any>(null);
 
@@ -77,8 +80,13 @@ export default function PropertyPage() {
         };
         fetchData();
     }, [id]);
-    if (!property) return <div>Loading...</div>
-    // 
+    if (!property) {
+        return (
+        <Box display="flex" justifyContent="center" mt={5}>
+            <CircularProgress />
+        </Box>
+        );
+    }
 
     return (
         <Container maxWidth="lg" sx={{mt: 4}}>
@@ -125,7 +133,6 @@ export default function PropertyPage() {
                                     return;
                                 }
                             }}
-                            // slotProps={{input: {inputProps: {min: 1, step: 1}}}}
                             inputProps={{ min: 1, max: Number(property.number_of_guests),step: 1 }}
                             sx={{mt: 2, width: "100%"}}
                         />
@@ -225,6 +232,7 @@ export default function PropertyPage() {
                         </Typography>
 
                         <Button
+                            disabled={!accessToken}
                             variant="contained"
                             fullWidth
                             sx={{ mt: 2 }}
@@ -232,6 +240,11 @@ export default function PropertyPage() {
                         >
                             Reserve
                         </Button>
+                        {!accessToken ? (
+                            <Typography sx={{color: "red", mt: 2, textAlign: "center"}}>
+                                You must be signed in to reserve a property
+                            </Typography>
+                        ) : null}
                         </CardContent>
                     </Card>
                 </Grid>

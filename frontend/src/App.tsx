@@ -9,6 +9,7 @@ import LoginPage from "./pages/auth/Login.page";
 import CreatePropertyPage from "./pages/CreateProperty.page";
 import OwnerBookingsPage from "./pages/OwnerProfile";
 import PropertyPage from './pages/ProperyPage';
+import SearchPage from "./pages/SearchProperty.page";
 
 import { useAuth } from "./services/user.auth";
 
@@ -79,6 +80,7 @@ function App() {
           <Route path="/create" element={<CreatePropertyPage />}></Route>
           <Route path="/profile" element={<OwnerBookingsPage />}></Route>
           <Route path="/property/:id" element={<PropertyPage />}></Route>
+          <Route path="/search/" element={<SearchPage />}></Route>
         </Routes>
       </ThemeProvider>
     </>

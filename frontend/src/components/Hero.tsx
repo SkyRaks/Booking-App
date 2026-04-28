@@ -1,8 +1,29 @@
 import { Paper, TextField, Button, Typography, Box } from "@mui/material";
 import { useTheme } from "@mui/material";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 export default function Hero() {
     const theme = useTheme();
+
+    const [search, setSearch] = useState({
+        location: "",
+        checkIn: "",
+        checkOut: "",
+        guests: 1,
+    });
+
+    const navigate = useNavigate();
+    
+    const handleSearch = () => {
+        const query = new URLSearchParams({
+            location: search.location,
+            guests: String(search.guests),
+        }).toString();
+
+        navigate(`/search?${query}`);
+    }
 
     return (
         <Paper
@@ -33,12 +54,23 @@ export default function Hero() {
                     borderRadius: 2,
                 }}
             >
-                <TextField label="Where are you going?" size="small"/>
-                <TextField label="Check-in" size="small"/>
-                <TextField label="Check-out" size="small"/>
-                <TextField label="Guests" size="small"/>
+                <TextField 
+                    label="Where are you going?" 
+                    size="small"
+                    value={search.location}
+                    onChange={(e) => setSearch({...search, location: e.target.value})}
+                    />
+                <TextField 
+                    label="Guests" 
+                    size="small"
+                    value={search.guests}
+                    onChange={(e) => setSearch({...search, guests: Number(e.target.value)})}
+                    />
 
-                <Button variant="contained">Search</Button>
+                <Button 
+                    variant="contained"
+                    onClick={handleSearch}
+                    >Search</Button>
                 
             </Box>
 
