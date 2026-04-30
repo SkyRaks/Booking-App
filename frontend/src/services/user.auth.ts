@@ -83,7 +83,9 @@ export const useAuth = create<AuthState>((set) => ({
         });
 
         const data = await res.json()
-        if (!res.ok) return {success: false, message: data.message};
+        if (!res.ok) {
+            return {success: false, message: data.email[0]};
+        }
         
         return {success: true, message: "user created"};
     }

@@ -45,12 +45,8 @@ class PropertiesView(APIView):
                 "id": p.id,
                 "owner": p.owner.name,
                 "title": p.title,
-                "description": p.description,
                 "location": p.location,
                 "price_per_night": float(p.price_per_night),
-                "number_of_guests": p.number_of_guests,
-                "amenities": p.amenities,
-                "rooms": p.rooms,
                 "images": [img.image.url for img in images]
             }) # for images later with S3
         return Response(data, status=status.HTTP_200_OK)    

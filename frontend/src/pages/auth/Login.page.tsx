@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography, MenuItem, Paper, Snackbar, Container } from "@mui/material";
+import { Box, TextField, Button, Typography, MenuItem, Paper, Snackbar, Container, Alert } from "@mui/material";
 import { useAuth } from "../../services/user.auth.ts";
+import { useNavigate } from "react-router-dom";
 
 type Role = "owner" | "guest";
 
@@ -11,6 +12,12 @@ type FormData = {
 };
 
 export default function LoginPage() {
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: "",
+        severity: "success"
+    });
+
     const loginUser = useAuth((state) => state.loginUser);
 
     const [form, setFrom] = useState<FormData>({
@@ -18,8 +25,6 @@ export default function LoginPage() {
         password: "",
         role: "guest"
     });
-
-    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -30,9 +35,9 @@ export default function LoginPage() {
         });
     };
 
-    const handleSubmit = async () => {
-        setError(null);
+    const navigate = useNavigate();
 
+    const handleSubmit = async () => {
         const res = await loginUser({
             email: form.email,
             password: form.password,
@@ -40,9 +45,10 @@ export default function LoginPage() {
         })
 
         if (!res.success) {
-            setError(res.message)
+            setSnackbar({open: true, message: res.message, severity: "error"})
         } else {
-            alert("You've been logged in")
+            // setSnackbar({open: true, message: "You've logged in!", severity: "success"})
+            navigate('/')
         }
     }
 
@@ -82,14 +88,23 @@ export default function LoginPage() {
                     <MenuItem value="owner">Owner</MenuItem>
                 </TextField>
 
-                {error && (
-                    <Typography color="error" mt={1}>
-                        {error}
-                    </Typography>
-                )}
-
                 <Button variant="contained" fullWidth sx={{mt: 2}} onClick={handleSubmit}>Login</Button>
             </Paper>
+            
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={5000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                // severity={snackbar.severity}
+                sx={{ width: "100%" }}
+                >
+                {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Box>
         </Container>
     );
