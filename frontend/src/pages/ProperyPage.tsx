@@ -9,7 +9,7 @@ import { useAuth} from "../services/user.auth";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
 export default function PropertyPage() {
     const accessToken = useAuth((state) => state.accessToken);
@@ -179,7 +179,7 @@ export default function PropertyPage() {
                     <Grid container spacing={2} sx={{mt: 2}}>
                         <Grid size={8}>
                             <img
-                            src={`http://localhost:8000${property.images?.[0].image}`}
+                            src={`/api${property.images?.[0].image}`}
                             style={{width: "100%", borderRadius: 8}}
                         />
                         </Grid>
@@ -187,7 +187,7 @@ export default function PropertyPage() {
                         {property.images?.slice(1, 5).map((img: any, i: number) => (
                             <Grid key={i} size={4}>
                                 <img
-                                    src={`http://localhost:8000${img.image}`}
+                                    src={`/api${img.image}`}
                                     style={{width: "100%", borderRadius: 8}}
                                 />
                             </Grid>

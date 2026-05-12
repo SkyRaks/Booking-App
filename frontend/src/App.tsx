@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { createTheme, ThemeProvider, Box, CssBaseline, Button, Container } from "@mui/material";
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 
 import Navbar from './components/Navbar';
@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
     const refreshAccessToken = async() => {
       try {
-        const res = await fetch("http://localhost:8000/common/refresh/", {
+        const res = await fetch("/api/common/refresh/", {
           method: "POST",
           credentials: "include",
         })

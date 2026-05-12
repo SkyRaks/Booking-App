@@ -7,12 +7,12 @@ export default function SearchPage() {
     const [result, setResult] = useState([]);
     const [params] = useSearchParams();
 
-    const locaion = params.get("location");
+    // const locaion = params.get("location");
     const guests = params.get("guests");
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch("http://localhost:8000/properties/search/", {
+            const res = await fetch("/api/properties/search/", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"

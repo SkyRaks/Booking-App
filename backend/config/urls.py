@@ -15,13 +15,13 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
-    path('owners/', include("apps.owners.urls")),
-    path('guests/', include("apps.guests.urls")),
+    path('api/owners/', include("apps.owners.urls")),
+    path('api/guests/', include("apps.guests.urls")),
 
-    path('common/', include("apps.common.urls")),
+    path('api/common/', include("apps.common.urls")),
 
-    path('properties/', include("apps.properties.urls")),
-    path('bookings/', include("apps.bookings.urls")),
+    path('api/properties/', include("apps.properties.urls")),
+    path('api/bookings/', include("apps.bookings.urls")),
 ]
 
 if settings.DEBUG:

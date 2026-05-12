@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { create } from "zustand";
-// import { useAuth } from "../services/user.auth"
 import { useAuth } from "./user.auth";
 
 export type Room = {
@@ -22,7 +19,7 @@ export type PropertyForm = {
 
 export const getProperty = async (id: string) => {
     // GET SINGLE PROPERTY FROM HOME PAGE
-    const res = await fetch(`http://localhost:8000/properties/${id}`, {
+    const res = await fetch(`/api/properties/${id}`, {
         method: "GET",
         headers: {
             "Content-type": "application/json"
@@ -46,7 +43,7 @@ export const createProperty = async (form: PropertyForm) => {
         }
     });
     const accessToken = useAuth.getState().accessToken;
-    const res = await fetch("http://localhost:8000/properties/add-property/", {
+    const res = await fetch("/api/properties/add-property/", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${accessToken}`
@@ -63,7 +60,7 @@ export const createProperty = async (form: PropertyForm) => {
 
 export const bookProperty = async (propertyId: string, checkIn: string | null, checkOut: string | null, total: number) => {
     const accessToken = useAuth.getState().accessToken;
-    const res = await fetch("http://localhost:8000/bookings/book-property/", {
+    const res = await fetch("/api/bookings/book-property/", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${accessToken}`,

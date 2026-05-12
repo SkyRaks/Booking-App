@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { create } from "zustand";
 import { useAuth } from "../services/user.auth"
 
 export const getBookings = async () => {
     const accessToken = useAuth.getState().accessToken;
-    const res = await fetch("http://localhost:8000/bookings/", {
+    const res = await fetch("/api/bookings/", {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${accessToken}`,

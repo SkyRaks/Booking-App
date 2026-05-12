@@ -45,7 +45,7 @@ export const useAuth = create<AuthState>((set) => ({
             return {success: false, message: "provide all fields"}
         }
 
-        const res = await fetch(`http://localhost:8000/common/login/`, {
+        const res = await fetch(`/api/common/login/`, {
             method: "POST",
             headers: {"Content-type":"application/json"},
             body:JSON.stringify(logUser),
@@ -75,7 +75,7 @@ export const useAuth = create<AuthState>((set) => ({
 
         const endpoint = role === "owner" ? "owners/register/" : "guests/register/";
 
-        const res = await fetch(`http://localhost:8000/${endpoint}`, {
+        const res = await fetch(`/api/${endpoint}`, {
             method: "POST",
             headers: {"Content-type":"application/json"},
             body:JSON.stringify(newUser),

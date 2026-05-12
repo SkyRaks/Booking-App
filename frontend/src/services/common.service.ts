@@ -19,7 +19,7 @@ export const usePropertiesStore = create<PropertiesState>((set) => (
 
         setProperties: async () => {
             try {
-                const res = await fetch("http://localhost:8000/properties/featured/", {
+                const res = await fetch("/api/properties/featured/", {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json"

@@ -10,7 +10,7 @@ type Props = {
     mode: ThemeMode;
 };
 
-export default function Narbar({toggleTheme, mode}: Props) {
+export default function Narbar({toggleTheme}: Props) {
     const accessToken = useAuth((state) => state.accessToken)
     const setAccessToken = useAuth((state) => state.setAccessToken)
     const setUser = useAuth((state) => state.setUser)
@@ -29,7 +29,7 @@ export default function Narbar({toggleTheme, mode}: Props) {
 
     const handleLogout = async() => {
         try {
-            const res = await fetch(`http://localhost:8000/common/logout/`, {
+            const res = await fetch(`/api/common/logout/`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

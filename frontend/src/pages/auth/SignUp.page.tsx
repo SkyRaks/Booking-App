@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 type Role = "owner" | "guest";
 
+type SnackbarSeverity = "success" | "error" | "info" | "warning"
+
 type FormData = {
     username: string;
     email: string;
@@ -13,7 +15,11 @@ type FormData = {
 };
 
 export default function SignUpPage() {
-    const [snackbar, setSnackbar] = useState({
+    const [snackbar, setSnackbar] = useState<{
+        open: boolean,
+        message: string,
+        severity: SnackbarSeverity;
+    }>({
         open: false,
         message: "",
         severity: "success"
