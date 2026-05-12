@@ -1,0 +1,39 @@
+name: EC2Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+-jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: EC2Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd ~/Booking-App
+
+            git pull origin main
+
+            cd backend
+            source venv/bin/activate
+            pip install -r requirements.txt
+
+            python manage.py migrate
+            python manage.py collectstatic --noinput
+
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
+
+            cd ../frontend
+            npm install
+            npm run build
+
+            sudo rm -rf /var/www/react/*
+            sudo cp -r dist/* /var/www/react/
